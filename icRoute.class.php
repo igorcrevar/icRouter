@@ -145,12 +145,11 @@ class icRoute{
 		
 		//this is code from symfony its better to check missing parameters imediatelly 
 		if ( ($diff = array_diff_key($this->parameters, $mgParams)) )
-        {
-        	throw new icException(sprintf("Route with name %s, pattern %s has missing parameters (%s)", 
-        				$this->name, $this->createPattern, implode(', ', array_keys($diff)) ));	
-    	}
-    	
-    	//
+		{
+			throw new icException(sprintf("Route with name %s, pattern %s has missing parameters (%s)", 
+			$this->name, $this->createPattern, implode(', ', array_keys($diff)) ));	
+		}
+
 		$tokens = array();
 		$replaces = array();
 		$url = $this->createPattern;
@@ -167,24 +166,22 @@ class icRoute{
 			// than just clear this parameter from generated url
 			if ( !isset($this->defaultMatchedParameters[$key])  ||  $this->defaultMatchedParameters[$key] != $value )
 			{
+				$isRouteParam = $icRouteParameterObject instanceof icRouteParameter;
 				//if there is route parameter object for this parameter, parse its value with routeParameterObject otherwise just do urlencode
 				if ( !$hasDefaults )
 				{
-					$url = str_replace( ':'.$key
-										, !($icRouteParameterObject instanceof icRouteParameter) ? urlencode( $value ) : 
-																	  	   $icRouteParameterObject->parseValue( $value )
-										,$url );
-				
+					$url = str_replace( ':'.$key, 
+							!$isRouteParam ? urlencode($value) : $icRouteParameterObject->parseValue($value),
+							$url); 
 				}		
 				else 						
 				{
 					$tokens[] = ':'.$key;
-					$replaces[] = !($icRouteParameterObject instanceof icRouteParameter) ? urlencode( $value ) : 
-																	$icRouteParameterObject->parseValue( $value );
+					$replaces[] = !$isRouteParam ? urlencode($value) : $icRouteParameterObject->parseValue($value);
 					$url = str_replace( $tokens, $replaces, $url );
 					$tokens = array();
 					$replaces = array();
-					$hasDefaults = false;					
+					$hasDefaults = false;
 				}
 			}
 			else
