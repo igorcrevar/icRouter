@@ -1,0 +1,14 @@
+{
+    "name": "IgorCrevar/icRouter",
+    "description": "Different approach for standard routing problem. Matching tree based.",
+    "keywords": ["route", "routing"],
+    "license": "MIT",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {"IgorCrevar\\icRouter\\": "src/IgorCrevar/icRouter/"}
+    }
+}

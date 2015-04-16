@@ -68,6 +68,12 @@ First parameter is route name, second is parameters (key value pairs) array
 For production, because $router->build() is expensive 
 you should cache already built router (APC, serializing, etc...)
 
+## Unit Testing
+Go to base dir and execute:
+```
+phpunit test/RouterTest.php
+```
+
 ## TODO
 perfomance banchmark beetween this library and some  
 regular expression routing library like one from symfony framework or similar.
