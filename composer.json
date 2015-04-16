@@ -1,5 +1,5 @@
 {
-    "name": "IgorCrevar/icRouter",
+    "name": "igorcrevar/icrouter",
     "description": "Different approach for standard routing problem. Matching tree based.",
     "keywords": ["route", "routing"],
     "license": "MIT",
