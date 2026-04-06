@@ -28,7 +28,7 @@ abstract class ARouteNode
     /**
      * Check if node value matches some value
      * @param string $value
-     * @return boolean true if node value matches input value
+     * @return mixed false if no match, truthy match data otherwise
      */
     public abstract function isMatch($value);
     
@@ -36,9 +36,10 @@ abstract class ARouteNode
      * Process $values at $index position
      * @param array string $values
      * @param array key->value $params. It is populated by nodes
+     * @param mixed $matchData data returned by isMatch
      * @return new index for values
      */
-    public abstract function processStep(&$values, &$params, $index);
+    public abstract function processStep(&$values, &$params, $index, $matchData = null);
     
     /**
      * Get string of node
@@ -61,13 +62,14 @@ abstract class ARouteNode
     
     /**
      * Iterate over children and find first one which matches value
-     * @return ARouteNode if node is found or NULL
+     * @return array [ARouteNode, mixed matchData] if node is found or NULL
      */
     public function findMatchingChild($value) 
     {
         foreach ($this->children as $child) {
-            if ($child->isMatch($value)) {
-                return $child;
+            $matchData = $child->isMatch($value);
+            if ($matchData !== false) {
+                return array($child, $matchData);
             }
         }
         return NULL;

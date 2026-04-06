@@ -9,7 +9,6 @@ class RouteNodeParam extends ARouteNode
     private $identifier;
     private $value;
     private $fullPattern;
-    private $lastMatchedParam;
     private $identifierWithPrefix;
     
     public function __construct(ARouteNode $parent, $value, $identifier, $pattern)
@@ -30,17 +29,20 @@ class RouteNodeParam extends ARouteNode
     {
        $matches = array();
        preg_match($this->fullPattern, $value, $matches);
+       if (preg_last_error() !== PREG_NO_ERROR) {
+           throw new RouterException(
+               sprintf("Regex error (code %d) matching pattern %s", preg_last_error(), $this->fullPattern));
+       }
        if (!isset($matches['ident'])) {
            return false;
        }
        
-       $this->lastMatchedParam = $matches['ident'];
-       return true;
+       return $matches['ident'];
     }
 
-    public function processStep(&$values, &$params, $index)
+    public function processStep(&$values, &$params, $index, $matchData = null)
     {
-        $params[$this->identifier] = $this->lastMatchedParam;
+        $params[$this->identifier] = $matchData;
         return $index + 1;
     }
 

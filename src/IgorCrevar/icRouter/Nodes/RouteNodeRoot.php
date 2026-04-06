@@ -14,7 +14,7 @@ class RouteNodeRoot extends ARouteNode
         return true;
     }
 
-    public function processStep(&$values, &$params, $index)
+    public function processStep(&$values, &$params, $index, $matchData = null)
     {
         return $index;
     }

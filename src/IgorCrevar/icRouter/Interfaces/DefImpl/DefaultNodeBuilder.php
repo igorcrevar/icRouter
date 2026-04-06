@@ -3,6 +3,7 @@ namespace IgorCrevar\icRouter\Interfaces\DefImpl;
 
 use IgorCrevar\icRouter\Interfaces\INodeBuilder;
 use IgorCrevar\icRouter\Route;
+use IgorCrevar\icRouter\RouterException;
 use IgorCrevar\icRouter\Nodes\ARouteNode;
 use IgorCrevar\icRouter\Nodes\RouteNodeLeafAny;
 use IgorCrevar\icRouter\Nodes\RouteNodeLeaf;

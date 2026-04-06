@@ -19,7 +19,7 @@ class RouteNodeLeaf extends ARouteNode
         return $value === '';
     }
 
-    public function processStep(&$values, &$params, $index)
+    public function processStep(&$values, &$params, $index, $matchData = null)
     {
         foreach ($this->defaults as $key => $value) {
             if (!isset($params[$key])) {

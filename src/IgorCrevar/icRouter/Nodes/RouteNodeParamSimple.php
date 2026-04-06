@@ -21,7 +21,7 @@ class RouteNodeParamSimple extends ARouteNode
        return true;
     }
 
-    public function processStep(&$values, &$params, $index)
+    public function processStep(&$values, &$params, $index, $matchData = null)
     {
         $params[$this->identifier] = $values[$index];
         return $index + 1;

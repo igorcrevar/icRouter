@@ -1,81 +1,136 @@
-#icRouter 
-Different approach for standard routing problem. Instead of using regular expressions, matching tree is built.
+# icRouter
 
-This library will not work with older versions of PHP. Minimal version is 5.3
+A tree-based URL router for PHP. Instead of iterating over a list of regular expressions, icRouter builds a matching tree from registered routes, providing efficient O(depth) lookups.
+
+Requires PHP 5.5 or later.
+
+## Installation
+
+```
+composer require igorcrevar/icrouter
+```
 
 ## Usage
-#### Usings
-``` php
+
+### Setup
+
+```php
 use IgorCrevar\icRouter\Router;
 use IgorCrevar\icRouter\Route;
 use IgorCrevar\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
-```
-#### Create router
-``` php
+
 $router = new Router(new DefaultNodeBuilder());
 ```
-#### Add some routes
-``` php
+
+### Define routes
+
+```php
 $router->setRoutes([
-    new Route('simple', '/simple', 
+    new Route('simple', '/simple',
               array('module' => 'simple')),
-    new Route('simple_param', '/param/:a', 
-              array('module' => 'simple_param', 'a' => 10), 
-              array('a' => '\d+')), // a is integer
-    new Route('two_params', '/param/hello/:a/some/:b', 
+    new Route('simple_param', '/param/:a',
+              array('module' => 'simple_param', 'a' => 10),
+              array('a' => '\d+')),
+    new Route('two_params', '/param/hello/:a/some/:b',
               array('module' => 'two_params', 'a' => 10, 'onemore' => 'time')),
-    new Route('two_params_any', '/home/hello/:a/:b/*', 
+    new Route('two_params_any', '/home/hello/:a/:b/*',
               array('module' => 'two_params_any', 'a' => 10, 'b' => '10'),
-              array('b' => '[01]+')), // b is string / number of 0' and 1'
+              array('b' => '[01]+')),
     new Route('complex_param', '/complex/id_:id',
               array('module' => 'complex_param'),
               array('id' => '\d+')),
-    new Route('home', '/*', 
+    new Route('home', '/*',
               array('module' => 'home')),
 ]);
-```
-#### Build route tree
-``` php
+
 $router->build();
 ```
-#### Match
-``` php
-$result = $router->match('/a/b/c/d/e');
+
+### Match a URL
+
+```php
+$result = $router->match('/param/20');
+// Returns: array('module' => 'simple_param', 'a' => '20')
+
+$result = $router->match('/nonexistent');
+// Returns: false
 ```
-$result will be array of matching parameters (key value pairs) if route exists otherwise false is returned
-#### Generate
-``` php
+
+`match()` returns an associative array of parameters on success, or `false` if no route matches.
+
+### Generate a URL
+
+```php
 $result = $router->generate('two_params', array('b' => 'aabb'));
-```
-First parameter is route name, second is parameters (key value pairs) array
-
-#### Route constructor parameters
-- name of route
-- patterns:
-	Examples:
-	1. /acount/:id/*  - provides functionality for additional parameters
-	2. /account/:id/:action    
-    3. /account/id_:id
-    Parameter is specified with /:[A-Za-z0-9]+/
-    Only one parameter is allowed per route segment
-- optional default parameters for route (key - value pairs)
-- optional regex for parameters in pattern
-	Examples:
-	1. array('id' => '\d+')  - id is integer
-	2. array('type' => 'car|boat|plane') - type is either car or boat or plane
-
-## Tip
-For production, because $router->build() is expensive 
-you should cache already built router (APC, serializing, etc...)
-
-## Unit Testing
-Go to base dir and execute:
-```
-phpunit test/RouterTest.php
+// Returns: '/param/hello/10/some/aabb'
 ```
 
-## TODO
-perfomance banchmark beetween this library and some  
-regular expression routing library like one from symfony framework or similar.
+The first argument is the route name, the second is an array of parameters. Missing parameters are filled from defaults.
 
- 
+## Route constructor
+
+```php
+new Route($name, $pattern, $defaults = array(), $parameters = array())
+```
+
+| Argument | Description |
+|---|---|
+| `$name` | Unique route name, used for URL generation |
+| `$pattern` | URL pattern with optional parameters and wildcard |
+| `$defaults` | Default values for parameters (key-value pairs) |
+| `$parameters` | Regex constraints for named parameters |
+
+### Pattern syntax
+
+- Static segments match literally: `/account/list`
+- Named parameters are prefixed with `:` and match a single segment: `/account/:id`
+- Named parameters can be embedded in a segment: `/account/id_:id`
+- A trailing `*` captures remaining segments as key-value pairs: `/account/:id/*`
+- Parameter names must match `[A-Za-z0-9]+`
+- Only one named parameter is allowed per segment
+
+### Parameter constraints
+
+Regex patterns (without delimiters) can be specified per parameter:
+
+```php
+array('id' => '\d+')            // id must be an integer
+array('type' => 'car|boat|plane') // type must be one of these values
+```
+
+## Route ordering
+
+Routes are matched in registration order. When multiple routes could match a URL, the **first registered route wins**. Place more specific routes before general ones:
+
+```php
+$router->setRoutes([
+    new Route('specific', '/param/:a', ...),  // checked first
+    new Route('catchall', '/*', ...),          // fallback
+]);
+```
+
+## HTTP methods
+
+icRouter matches URL paths only and does not handle HTTP methods (GET, POST, PUT, DELETE, etc.). Method dispatch can be handled by your application code, for example by including the method in the route defaults:
+
+```php
+$router->setRoutes([
+    new Route('create_user', '/user/create',
+              array('module' => 'user', 'action' => 'create', 'method' => 'POST')),
+]);
+
+$result = $router->match('/user/create');
+if ($result && $result['method'] !== $_SERVER['REQUEST_METHOD']) {
+    // return 405 Method Not Allowed
+}
+```
+
+## Performance tip
+
+`$router->build()` constructs the matching tree and is relatively expensive. In production, cache the built router instance (e.g. via `serialize()`, APC, or similar) to avoid rebuilding on every request.
+
+## Unit testing
+
+```
+vendor/bin/phpunit test/RouterTest.php
+```

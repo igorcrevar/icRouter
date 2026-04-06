@@ -84,9 +84,9 @@ class Router
                     throw new RouterException(sprintf('Route: %s is invalid', $route->getPattern()));
                 }
                 
-                $node = $currNode->findMatchingChild($value);
-                if ($node) {
-                   $currNode = $node;
+                $match = $currNode->findMatchingChild($value);
+                if ($match) {
+                   $currNode = $match[0];
                 }
                 else {
                    $currNode = $this->nodeBuilder->build($value, $route, $currNode);
@@ -123,12 +123,13 @@ class Router
         $node = $this->rootNode;
         $i = 0;
         while ($i < count($values)) {
-            $node = $node->findMatchingChild($values[$i]);
-            if ($node == NULL) {
+            $match = $node->findMatchingChild($values[$i]);
+            if ($match === null) {
                 return false;
             }
             
-            $i = $node->processStep($values, $result, $i);
+            list($node, $matchData) = $match;
+            $i = $node->processStep($values, $result, $i, $matchData);
         }
         
         if ($node->isLeaf()) {

@@ -18,7 +18,7 @@ class RouteNode extends ARouteNode
         return $value === $this->value;
     }
 
-    public function processStep(&$values, &$params, $index)
+    public function processStep(&$values, &$params, $index, $matchData = null)
     {
         return $index + 1;
     }

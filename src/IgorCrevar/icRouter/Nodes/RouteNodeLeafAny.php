@@ -9,11 +9,16 @@ class RouteNodeLeafAny extends RouteNodeLeaf
         parent::__construct($parent, $defaults);
     }
 
-    public function processStep(&$values, &$params, $index)
+    public function processStep(&$values, &$params, $index, $matchData = null)
     {
+        // Remember which params were already set by named param nodes
+        $locked = $params;
+
         $cnt = count($values);
         for ($i = $index; $i + 1 < $cnt; $i += 2) {
-            $params[$values[$i]] = $values[$i + 1];
+            if (!isset($locked[$values[$i]])) {
+                $params[$values[$i]] = $values[$i + 1];
+            }
         }
 
         parent::processStep($values, $params, $index);
