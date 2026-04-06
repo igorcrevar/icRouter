@@ -7,7 +7,7 @@ Requires PHP 5.5 or later.
 ## Installation
 
 ```
-composer require pathforge/router
+composer require pathforge/icrouter
 ```
 
 ## Usage

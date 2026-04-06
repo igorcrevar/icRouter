@@ -1,5 +1,5 @@
 {
-    "name": "pathforge/router",
+    "name": "pathforge/icrouter",
     "description": "Tree-based URL router for PHP. Efficient matching via node tree instead of regex iteration.",
     "keywords": ["route", "routing", "router", "tree", "url"],
     "license": "MIT",
