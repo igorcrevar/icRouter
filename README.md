@@ -134,3 +134,42 @@ if ($result && $result['method'] !== $_SERVER['REQUEST_METHOD']) {
 ```
 vendor/bin/phpunit test/RouterTest.php
 ```
+
+## Benchmarks
+
+Run benchmarks:
+
+```
+php test/benchmark.php
+```
+
+Results on PHP 8.1 (100,000 iterations per test):
+
+### Match performance
+
+| Scenario | Small router (7 routes) | Large router (500+ routes) |
+|---|---|---|
+| Static route | ~695K ops/sec | ~386K ops/sec |
+| Param with regex | ~324K ops/sec | ~242K ops/sec |
+| Two params, deep path | ~175K ops/sec | ~167K ops/sec |
+| Wildcard with key/value pairs | ~170K ops/sec | ~242K ops/sec |
+| Catchall (`/*`) | ~466K ops/sec | ~599K ops/sec |
+| No match | ~313K ops/sec | — |
+
+### Generate performance
+
+| Scenario | Small router | Large router |
+|---|---|---|
+| Static route | ~1.3M ops/sec | — |
+| Single param | ~468K ops/sec | ~408K ops/sec |
+| Two params | ~516K ops/sec | ~244K ops/sec |
+| Wildcard with params | ~317K ops/sec | ~592K ops/sec |
+
+### Build and memory
+
+| Metric | Small (7 routes) | Large (500+ routes) |
+|---|---|---|
+| Build speed | ~21K ops/sec | ~327 ops/sec |
+| Memory footprint | — | ~744 KB |
+
+The tree structure scales well: matching with 500+ routes is only 30–50% slower than with 7 routes, since lookup depends on tree depth rather than total route count. At ~170K+ ops/sec in the worst case, routing takes roughly 6 microseconds per request.
