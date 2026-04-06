@@ -1,6 +1,6 @@
 <?php 
 
-namespace IgorCrevar\icRouter\Nodes;
+namespace PathForge\icRouter\Nodes;
 
 class RouteNode extends ARouteNode
 {

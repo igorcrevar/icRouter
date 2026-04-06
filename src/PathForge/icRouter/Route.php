@@ -1,6 +1,6 @@
 <?php
 
-namespace IgorCrevar\icRouter;
+namespace PathForge\icRouter;
 
 /**
  * Describes route

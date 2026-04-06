@@ -1,8 +1,8 @@
 <?php
 
-namespace IgorCrevar\icRouter;
+namespace PathForge\icRouter;
 
-use IgorCrevar\icRouter\Interfaces\INodeBuilder;
+use PathForge\icRouter\Interfaces\INodeBuilder;
 
 /**
  * Router class, dealing with matching and generating routes

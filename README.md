@@ -1,13 +1,13 @@
-# icRouter
+# PathForge Router
 
-A tree-based URL router for PHP. Instead of iterating over a list of regular expressions, icRouter builds a matching tree from registered routes, providing efficient O(depth) lookups.
+A tree-based URL router for PHP. Instead of iterating over a list of regular expressions, PathForge Router builds a matching tree from registered routes, providing efficient O(depth) lookups.
 
 Requires PHP 5.5 or later.
 
 ## Installation
 
 ```
-composer require igorcrevar/icrouter
+composer require pathforge/router
 ```
 
 ## Usage
@@ -15,9 +15,9 @@ composer require igorcrevar/icrouter
 ### Setup
 
 ```php
-use IgorCrevar\icRouter\Router;
-use IgorCrevar\icRouter\Route;
-use IgorCrevar\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
+use PathForge\icRouter\Router;
+use PathForge\icRouter\Route;
+use PathForge\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
 
 $router = new Router(new DefaultNodeBuilder());
 ```

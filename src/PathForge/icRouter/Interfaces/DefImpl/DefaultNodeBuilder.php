@@ -1,16 +1,16 @@
 <?php
-namespace IgorCrevar\icRouter\Interfaces\DefImpl;
+namespace PathForge\icRouter\Interfaces\DefImpl;
 
-use IgorCrevar\icRouter\Interfaces\INodeBuilder;
-use IgorCrevar\icRouter\Route;
-use IgorCrevar\icRouter\RouterException;
-use IgorCrevar\icRouter\Nodes\ARouteNode;
-use IgorCrevar\icRouter\Nodes\RouteNodeLeafAny;
-use IgorCrevar\icRouter\Nodes\RouteNodeLeaf;
-use IgorCrevar\icRouter\Nodes\RouteNode;
-use IgorCrevar\icRouter\Nodes\RouteNodeParam;
-use IgorCrevar\icRouter\Nodes\RouteNodeRoot;
-use IgorCrevar\icRouter\Nodes\RouteNodeParamSimple;
+use PathForge\icRouter\Interfaces\INodeBuilder;
+use PathForge\icRouter\Route;
+use PathForge\icRouter\RouterException;
+use PathForge\icRouter\Nodes\ARouteNode;
+use PathForge\icRouter\Nodes\RouteNodeLeafAny;
+use PathForge\icRouter\Nodes\RouteNodeLeaf;
+use PathForge\icRouter\Nodes\RouteNode;
+use PathForge\icRouter\Nodes\RouteNodeParam;
+use PathForge\icRouter\Nodes\RouteNodeRoot;
+use PathForge\icRouter\Nodes\RouteNodeParamSimple;
 
 class DefaultNodeBuilder implements INodeBuilder 
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace IgorCrevar\icRouter\Interfaces;
+namespace PathForge\icRouter\Interfaces;
 
-use IgorCrevar\icRouter\Route;
-use IgorCrevar\icRouter\Nodes\ARouteNode;
+use PathForge\icRouter\Route;
+use PathForge\icRouter\Nodes\ARouteNode;
 
 interface INodeBuilder {
    

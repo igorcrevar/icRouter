@@ -1,7 +1,7 @@
 {
-    "name": "igorcrevar/icrouter",
-    "description": "Different approach for standard routing problem. Matching tree based.",
-    "keywords": ["route", "routing"],
+    "name": "pathforge/router",
+    "description": "Tree-based URL router for PHP. Efficient matching via node tree instead of regex iteration.",
+    "keywords": ["route", "routing", "router", "tree", "url"],
     "license": "MIT",
     "require": {
     },
@@ -9,6 +9,6 @@
         "phpunit/phpunit": "^9.0"
     },
     "autoload": {
-        "psr-4": {"IgorCrevar\\icRouter\\": "src/IgorCrevar/icRouter/"}
+        "psr-4": {"PathForge\\icRouter\\": "src/PathForge/icRouter/"}
     }
 }

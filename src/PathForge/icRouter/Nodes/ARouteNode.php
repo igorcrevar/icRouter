@@ -1,8 +1,8 @@
 <?php 
 
-namespace IgorCrevar\icRouter\Nodes;
+namespace PathForge\icRouter\Nodes;
 
-use IgorCrevar\icRouter\RouterException;
+use PathForge\icRouter\RouterException;
 
 /**
  * Abstract route node of routing tree

@@ -1,8 +1,8 @@
 <?php
 
-namespace IgorCrevar\icRouter\Nodes;
+namespace PathForge\icRouter\Nodes;
 
-use IgorCrevar\icRouter\RouterException;
+use PathForge\icRouter\RouterException;
 
 class RouteNodeParam extends ARouteNode
 {

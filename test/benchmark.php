@@ -2,9 +2,9 @@
 
 require dirname(__FILE__) . '/../vendor/autoload.php';
 
-use IgorCrevar\icRouter\Router;
-use IgorCrevar\icRouter\Route;
-use IgorCrevar\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
+use PathForge\icRouter\Router;
+use PathForge\icRouter\Route;
+use PathForge\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
 
 function formatNumber($n) {
     return number_format($n, 0, '.', ',');

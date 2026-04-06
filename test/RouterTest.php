@@ -1,10 +1,10 @@
 <?php
 
-namespace IgorCrevar\icRouter\test;
+namespace PathForge\icRouter\test;
 
-use IgorCrevar\icRouter\Router;
-use IgorCrevar\icRouter\Route;
-use IgorCrevar\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
+use PathForge\icRouter\Router;
+use PathForge\icRouter\Route;
+use PathForge\icRouter\Interfaces\DefImpl\DefaultNodeBuilder;
 
 class RouterTest extends \PHPUnit\Framework\TestCase
 {
@@ -133,7 +133,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testGenerateExceptionParamNotSet()
     {
-        $this->expectException(\IgorCrevar\icRouter\RouterException::class);
+        $this->expectException(\PathForge\icRouter\RouterException::class);
         // b is not set
         $this->router->generate('two_params');
     }
@@ -149,7 +149,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
      */
     public function testGenerateExceptionAdditionalParamoOnNonStarRoute()
     {
-        $this->expectException(\IgorCrevar\icRouter\RouterException::class);
+        $this->expectException(\PathForge\icRouter\RouterException::class);
         // additional params set and not end with *
         $this->router->generate('two_params', array('b' => 1, 'c' => 2));
     }
@@ -193,7 +193,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         ]);
         $router->build();
         
-        $this->expectException(\IgorCrevar\icRouter\RouterException::class);
+        $this->expectException(\PathForge\icRouter\RouterException::class);
         $router->match('/redos/' . str_repeat('a', 25) . '!');
     }
 
@@ -212,14 +212,14 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         ]);
         
         // This should throw RouterException but will fail with
-        // "Class 'IgorCrevar\icRouter\Interfaces\DefImpl\RouterException' not found"
-        $this->expectException(\IgorCrevar\icRouter\RouterException::class);
+        // "Class 'PathForge\icRouter\Interfaces\DefImpl\RouterException' not found"
+        $this->expectException(\PathForge\icRouter\RouterException::class);
         $router->build();
     }
 }
     
 spl_autoload_register(function($className) {
-    if (strpos($className, 'IgorCrevar\\icRouter\\') === 0) {
+    if (strpos($className, 'PathForge\\icRouter\\') === 0) {
         $path = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR;
         include str_replace('\\', DIRECTORY_SEPARATOR, $path.$className).'.php';
     }
